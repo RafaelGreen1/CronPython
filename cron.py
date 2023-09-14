@@ -46,42 +46,52 @@ def numbersList(s, rangeFrom, rangeTo):
       l += [int(elem)]
   return l
 
+def isToRun(dt, cronLine):
+  line = cronLine
+  arr = line.split()
+  [minutes, hours, dayOfMonth, month, dayOfWeek] = arr[0:5]
+  if (not '*' in dayOfMonth) or (not '*' in month):
+    if ('*' in dayOfWeek):
+      dayOfWeek = "8" # out of range
+  
+  if (not '*' in dayOfWeek):
+    if ('*' in dayOfMonth) and ('*' in month):
+      month = "13" # out of range
+  
+  minutesList = numbersList(minutes, 0, 59)
+  hoursList = numbersList(hours, 0, 59)
+  daysOfMonthList = numbersList(dayOfMonth, 1, 31)
+  monthsList = numbersList(month, 1, 12)
+  daysOfWeekList = numbersList(dayOfWeek, 0, 6)
+  
+  curMinute = dt.minute
+  curHour = dt.hour
+  curDay = dt.day
+  curMonth = dt.month
+  curWeekday = dt.isoweekday()
+  
+  if (
+    curMinute in minutesList and
+    curHour in hoursList and
+    ((curDay in daysOfMonthList and curMonth in monthsList) or
+    (curWeekday in daysOfWeekList))
+  ):
+    return True
+  return False
+
 def parseLine(line):
   if not line.startswith("#") and len(line) > 0:
     arr = line.split()
-    [minutes, hours, dayOfMonth, month, dayOfWeek] = arr[0:5]
-    if (not '*' in dayOfMonth) or (not '*' in month):
-      if ('*' in dayOfWeek):
-        dayOfWeek = "8" # out of range
-    
-    if (not '*' in dayOfWeek):
-      if ('*' in dayOfMonth) and ('*' in month):
-        month = "13" # out of range
-    
-    minutesList = numbersList(minutes, 0, 59)
-    hoursList = numbersList(hours, 0, 59)
-    daysOfMonthList = numbersList(dayOfMonth, 1, 31)
-    monthsList = numbersList(month, 1, 12)
-    daysOfWeekList = numbersList(dayOfWeek, 0, 6)
     command = " ".join(arr[5:])
     now = datetime.datetime.now()
-    curMinute = now.minute
-    curHour = now.hour
-    curDay = now.day
-    curMonth = now.month
-    curWeekday = now.isoweekday()
-    
-    if (
-      curMinute in minutesList and
-      curHour in hoursList and
-      ((curDay in daysOfMonthList and curMonth in monthsList) or
-      (curWeekday in daysOfWeekList))
-    ):
+    if isToRun(now, line):
       print (command)
       #os.system(command)
 
-file1 = open('crontab', 'r')
-Lines = file1.readlines()
-
-for line in Lines:
-  parseLine(line.strip())
+#
+#file1 = open('crontab', 'r')
+#Lines = file1.readlines()
+#
+#for line in Lines:
+#  parseLine(line.strip())
+#
