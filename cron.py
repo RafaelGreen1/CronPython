@@ -30,11 +30,11 @@ def replaceDaysNames(s):
 
 def numbersList(s, rangeFrom, rangeTo):
   l = []
+  s = replaceFirstAndLast(s, rangeFrom, rangeTo)
   if rangeTo == 12:
     s = replaceMonthNames(s)
   elif rangeTo == 6:
     s = replaceDaysNames(s)
-  replaceFirstAndLast(s, rangeFrom, rangeTo)
   arr = s.split(',')
   for elem in arr:
     if elem == '*':
