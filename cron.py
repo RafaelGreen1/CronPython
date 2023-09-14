@@ -2,10 +2,6 @@ import re
 import datetime
 import os
 
-file1 = open('crontab', 'r')
-Lines = file1.readlines()
-
-
 MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
 
@@ -65,7 +61,8 @@ def parseLine(line):
       print (command)
       #os.system(command)
 
-count = 0
-# Strips the newline character
+file1 = open('crontab', 'r')
+Lines = file1.readlines()
+
 for line in Lines:
   parseLine(line.strip())
