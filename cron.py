@@ -38,7 +38,7 @@ def numbersList(s, rangeFrom, rangeTo):
   arr = s.split(',')
   for elem in arr:
     if elem == '*':
-      l += list(range(rangeFrom, rangeTo))
+      l += list(range(rangeFrom, rangeTo+1))
     elif "-" in elem:
       [fromN, toN] = elem.split('-');
       l += list(range(int(fromN), int(toN)+1))
