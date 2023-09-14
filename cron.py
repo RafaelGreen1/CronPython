@@ -5,6 +5,14 @@ import os
 MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
 
+def replaceFirstAndLast(s, fromN, toN):
+  res = s
+  first = re.compile(re.escape("first"), re.IGNORECASE)
+  res = first.sub(str(fromN), res)
+  last = re.compile(re.escape("last"), re.IGNORECASE)
+  res = last.sub(str(toN), res)
+  return res
+
 def replaceMonthNames(s):
   res = s
   for idx, month in enumerate(MONTHS):
@@ -26,6 +34,7 @@ def numbersList(s, rangeFrom, rangeTo):
     s = replaceMonthNames(s)
   elif rangeTo == 6:
     s = replaceDaysNames(s)
+  replaceFirstAndLast(s, rangeFrom, rangeTo)
   arr = s.split(',')
   for elem in arr:
     if elem == '*':
