@@ -49,11 +49,20 @@ def numbersList(s, rangeFrom, rangeTo):
 def parseLine(line):
   if not line.startswith("#") and len(line) > 0:
     arr = line.split()
-    minutesList = numbersList(arr[0], 0, 59)
-    hoursList = numbersList(arr[1], 0, 59)
-    daysOfMonthList = numbersList(arr[2], 1, 31)
-    monthsList = numbersList(arr[3], 1, 12)
-    daysOfWeekList = numbersList(arr[4], 0, 6)
+    [minutes, hours, dayOfMonth, month, dayOfWeek] = arr[0:5]
+    if (not '*' in dayOfMonth) or (not '*' in month):
+      if ('*' in dayOfWeek):
+        dayOfWeek = "8" # out of range
+    
+    if (not '*' in dayOfWeek):
+      if ('*' in dayOfMonth) and ('*' in month):
+        month = "13" # out of range
+    
+    minutesList = numbersList(minutes, 0, 59)
+    hoursList = numbersList(hours, 0, 59)
+    daysOfMonthList = numbersList(dayOfMonth, 1, 31)
+    monthsList = numbersList(month, 1, 12)
+    daysOfWeekList = numbersList(dayOfWeek, 0, 6)
     command = " ".join(arr[5:])
     now = datetime.datetime.now()
     curMinute = now.minute
@@ -61,6 +70,7 @@ def parseLine(line):
     curDay = now.day
     curMonth = now.month
     curWeekday = now.isoweekday()
+    
     if (
       curMinute in minutesList and
       curHour in hoursList and
