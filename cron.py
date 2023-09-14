@@ -7,23 +7,23 @@ DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
 
 def replaceFirstAndLast(s, fromN, toN):
   res = s
-  first = re.compile(re.escape("first"), re.IGNORECASE)
+  first = re.compile("first", re.IGNORECASE)
   res = first.sub(str(fromN), res)
-  last = re.compile(re.escape("last"), re.IGNORECASE)
+  last = re.compile("last", re.IGNORECASE)
   res = last.sub(str(toN), res)
   return res
 
 def replaceMonthNames(s):
   res = s
   for idx, month in enumerate(MONTHS):
-    monthName = re.compile(re.escape(month), re.IGNORECASE)
+    monthName = re.compile(month, re.IGNORECASE)
     res = monthName.sub(str(idx+1), res)
   return res
 
 def replaceDaysNames(s):
   res = s
   for idx, day in enumerate(DAYS):
-    dayName = re.compile(re.escape(day), re.IGNORECASE)
+    dayName = re.compile(day, re.IGNORECASE)
     res = dayName.sub(str(idx), res)
   return res
 
